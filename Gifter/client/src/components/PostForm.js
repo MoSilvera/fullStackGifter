@@ -1,10 +1,12 @@
 import React, { useContext, useRef } from "react"
+import { useHistory} from "react-router-dom"
 import { PostContext } from "../providers/PostProvider"
 import { Form } from "reactstrap"
 
 
 export default props => {
     const { addPost } = useContext(PostContext)
+    const history = useHistory();
 
     const title = useRef("title")
     const image = useRef("image")
@@ -21,7 +23,7 @@ export default props => {
             caption: caption.current.value
         }
         console.log(newPostObject)
-        addPost(newPostObject).then(() => form.current.reset() )
+       return addPost(newPostObject)
     }
 
     return (
@@ -88,6 +90,7 @@ export default props => {
                     evt => {
                         evt.preventDefault() // Prevent browser from submitting the form
                         constructNewPost()
+                        .then(() => history.push("/"))
                     }
                 }
                 className="btn btn-primary">
